@@ -1,7 +1,7 @@
 {
   "name": "grasplogoanimation",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "js/graspintro.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "flow": "flow",
@@ -24,7 +24,7 @@
     "flow-bin": "^0.61.0",
     "flow-remove-types": "^1.2.3",
     "raw-loader": "^0.5.1",
-    "webpack": "^3.10.0",
+    "webpack": "^3.12.0",
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-merge": "^4.1.1"
   },
