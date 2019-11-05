@@ -24,9 +24,10 @@ module.exports = {
     modules: [".", "node_modules"],
     alias: {
       TweenMax: "lib/TweenMax.min",
-      TweenLite: "lib/TweenLite.min",
+      TweenLite: "lib/TweenLite.min", // Had to copy this to root folder from "lib" because this is required for loading 'DrawSVGPlugin'.
       TimelineMax: "lib/TimelineMax.min",
       DrawSVGPlugin: "lib/DrawSVGPlugin.min",
+      MorphSVGPlugin: "lib/MorphSVGPlugin.min",
       bootstrap: "lib/bootstrap.min",
       d3: "lib/d3_v4.min",
       jquery: "lib/jquery.min"

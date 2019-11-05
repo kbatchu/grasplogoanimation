@@ -1,6 +1,6 @@
-/* require(["./graspintro"], function(GraspIntro) {
+require(["./graspintro"], function(GraspIntro) {
   GraspIntro.init();
-}); */
-require(["./flythrough"], function(Flythrough) {
-  Flythrough.zoom();
 });
+/* require(["./flythrough"], function(Flythrough) {
+  Flythrough.zoom();
+}); */

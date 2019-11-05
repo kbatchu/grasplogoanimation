@@ -1,4 +1,10 @@
-define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
+define([
+  "jquery",
+  "bootstrap",
+  "TweenMax",
+  "DrawSVGPlugin",
+  "MorphSVGPlugin"
+], function($, bootstrap, TweenMax, DrawSVGPlugin, MorphSVGPlugin) {
   function GraspIntro() {
     var publicAPI = {};
 
@@ -83,6 +89,17 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
           "-=0.2"
         );
       }
+
+      return tL;
+    }
+
+    function changeSquaresFill() {
+      var tL = new TimelineMax();
+
+      tL.to($allLettersRect, 0.3, {
+        fill: "white",
+        ease: Elastic.easeOut.config(1, 0.3)
+      });
 
       return tL;
     }
@@ -388,7 +405,7 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
     }
 
     function loadGlobe() {
-      var animationPathForMovingCircle1;
+      // var animationPathForMovingCircle1;
 
       var $BlueCircle = $("#pathGlobeBlueCircle");
       var $grpGlobeContinents = $("#gGlobeContinents");
@@ -397,17 +414,33 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
       tL.to($BlueCircle, 0.1, { autoAlpha: 1 }, "blueGlobeLoaded");
       tL.to($grpGlobeContinents, 0.4, { autoAlpha: 1 });
 
-      tL.fromTo(
-        $("#pathBezierCurv1"),
-        0.6,
-        { drawSVG: "0% 10%" },
-        { autoAlpha: 1, drawSVG: "100% 100%", ease: Sine.easeInOut },
-        "blueGlobeLoaded"
+      /* animationPathForMovingCircle1 = MorphSVGPlugin.pathDataToBezier(
+        "#pathMaskBezierCurv1",
+        { align: "#pathMovingCircle1" }
       );
-      /*  animationPathForMovingCircle1 = MorphSVGPlugin.pathDataToBezier(
-      "#pathMaskBezierCurv1",
-      { align: "#pathMovingCircle1" }
-    ); */
+
+      tL.to(
+        "#pathMovingCircle1",
+        0.6,
+        {
+          autoAlpha: 1,
+          bezier: { values: animationPathForMovingCircle1, type: "cubic" },
+          ease: Sine.easeOut
+        },
+        "blueGlobeLoaded"
+      ).to("#pathMovingCircle1", 0.1, { autoAlpha: 0 }); */
+
+      return tL;
+    }
+
+    function loadMovingCircle1() {
+      var animationPathForMovingCircle1;
+      var tL = new TimelineMax();
+
+      animationPathForMovingCircle1 = MorphSVGPlugin.pathDataToBezier(
+        "#pathMaskBezierCurv1",
+        { align: "#pathMovingCircle1" }
+      );
 
       tL.to(
         "#pathMovingCircle1",
@@ -419,6 +452,33 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
         },
         "blueGlobeLoaded"
       ).to("#pathMovingCircle1", 0.1, { autoAlpha: 0 });
+
+      return tL;
+    }
+
+    function loadSatellite1() {
+      var animationPathForSatellite1;
+
+      // var tL = new TimelineMax({repeat:4, repeatDelay:0.3});
+      var tL = new TimelineMax();
+
+      animationPathForSatellite1 = MorphSVGPlugin.pathDataToBezier(
+        "#pathSatellite1FlightMask",
+        { align: "#gSatellite1" }
+      );
+
+      tL.to(
+        "#gSatellite1",
+        1,
+        {
+          autoAlpha: 1,
+          bezier: { values: animationPathForSatellite1, type: "cubic" },
+          ease: Sine.easeOut
+        },
+        "+=0.4",
+        "blueGlobeLoaded"
+      ).to("#gSatellite1", 0.1, { autoAlpha: 0 });
+
       return tL;
     }
 
@@ -436,29 +496,79 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
       var tL = new TimelineMax();
 
       tL.fromTo(
-        $("#grpWordSpace"),
-        0.2,
+        $("#grpWordPlace"),
+        0.1,
         { yPercent: -100 },
         { yPercent: 0, autoAlpha: 1, ease: Elastic.easeOut.config(1, 0.3) }
       );
 
       tL.fromTo(
-        $("#grpWordSpace"),
-        0.2,
+        $("#grpWordPlace"),
+        0.1,
         { yPercent: 0 },
         { yPercent: 100, autoAlpha: 0, ease: Elastic.easeOut.config(1, 0.3) },
-        "+=1"
+        "+=0.4"
+      );
+
+      tL.fromTo(
+        $("#grpWordTrend"),
+        0.1,
+        { yPercent: -100 },
+        { yPercent: 0, autoAlpha: 1, ease: Elastic.easeOut.config(1, 0.3) }
+      );
+
+      tL.fromTo(
+        $("#grpWordTrend"),
+        0.1,
+        { yPercent: 0 },
+        { yPercent: 100, autoAlpha: 0, ease: Elastic.easeOut.config(1, 0.3) },
+        "+=0.4"
+      );
+
+      tL.fromTo(
+        $("#grpWordVirus"),
+        0.1,
+        { yPercent: -100 },
+        { yPercent: 0, autoAlpha: 1, ease: Elastic.easeOut.config(1, 0.3) }
+      );
+
+      tL.fromTo(
+        $("#grpWordVirus"),
+        0.1,
+        { yPercent: 0 },
+        { yPercent: 100, autoAlpha: 0, ease: Elastic.easeOut.config(1, 0.3) },
+        "+=0.4"
+      );
+
+      tL.fromTo(
+        $("#grpWordTrack"),
+        0.1,
+        { yPercent: -100 },
+        { yPercent: 0, autoAlpha: 1, ease: Elastic.easeOut.config(1, 0.3) }
+      );
+
+      tL.fromTo(
+        $("#grpWordTrack"),
+        0.1,
+        { yPercent: 0 },
+        { yPercent: 100, autoAlpha: 0, ease: Elastic.easeOut.config(1, 0.3) },
+        "+=0.4"
       );
 
       tL.fromTo(
         $("#grpWordGrasp"),
-        0.2,
+        0.1,
         { yPercent: -100 },
         { yPercent: 0, autoAlpha: 1, ease: Elastic.easeOut.config(1, 0.3) }
       );
 
-      tL.to($("#rectPageBackground"), 0.5, { autoAlpha: 0 });
+      // 4Nov2019 tL.to($("#rectPageBackground"), 0.5, { autoAlpha: 0 });
 
+      return tL;
+    }
+
+    function collapseGRASPBlueBackground() {
+      var tL = new TimelineMax();
       tL.fromTo(
         $pathRectBackground,
         0.5,
@@ -472,12 +582,14 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
         },
         "+=0.4"
       );
-
       return tL;
     }
 
     function loadCircleBursts() {
       var $pathCircleBurstGreenCircle = $("#pathCircleBurstGreenCircle");
+      var $pathCircleBurstRedDottedCircle = $(
+        "#pathCircleBurstRedDottedCircle"
+      );
       var tL = new TimelineMax();
 
       tL.fromTo(
@@ -491,12 +603,12 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
       tL.to($pathCircleBurstGreenCircle, 0.2, { autoAlpha: 0 });
 
       tL.fromTo(
-        $("#pathCircleBurstRedDottedCircle"),
+        $pathCircleBurstRedDottedCircle,
         1,
         { autoAlpha: 1, transformOrigin: "center center" },
         { rotation: -720, ease: Sine.easeInOut },
         "-=0.2circleBurstStart"
-      ).to($("#pathCircleBurstRedDottedCircle"), 0.2, { autoAlpha: 0 });
+      ).to($pathCircleBurstRedDottedCircle, 0.2, { autoAlpha: 0 });
 
       tL.fromTo(
         $(".sunrays"),
@@ -518,7 +630,7 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
           $("#gPathBannerEpidemiology"),
           $("#gPathBannerEmergency")
         ],
-        1,
+        0.6,
         { y: -50 },
         { autoAlpha: 1, y: 10, ease: Elastic.easeOut.config(1, 0.3) },
         0.2
@@ -527,23 +639,24 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
       return tL;
     }
 
-    function animateSatellite1() {
+    function hideActivityBanners() {
       var tL = new TimelineMax();
-
-      var animationPathForMovingCircle1 = MorphSVGPlugin.pathDataToBezier(
-        "#pathMaskBezierCurv2",
-        { align: "#gSatellite1" }
+      tL.fromTo(
+        [
+          $("#gPathBannerAnalysis"),
+          $("#gPathBannerGisTech"),
+          $("#gPathBannerEpidemiology"),
+          $("#gPathBannerEmergency")
+        ],
+        0.2,
+        { y: 10 },
+        { autoAlpha: 0, y: -50, ease: Elastic.easeOut.config(1, 0.3) },
+        0.2
       );
-
-      tL.set($("#gSatellite1"), { autoAlpha: 1 })
-        .to("#gSatellite1", 8, {
-          bezier: { values: animationPathForMovingCircle1, type: "cubic" },
-          ease: Power0.easeNone
-        })
-        .to("#gSatellite1", 0.05, { autoAlpha: 0 }, "-=0.3");
 
       return tL;
     }
+
     publicAPI.init = function() {
       masterTL = new TimelineMax({ paused: true });
 
@@ -551,23 +664,27 @@ define(["jquery", "bootstrap", "TweenMax"], function($, bootstrap, TweenMax) {
       masterTL.add(prepAssets());
       masterTL.add(loadSquares());
       masterTL.addLabel("SquaresLoaded");
-      masterTL.add(loadCircleBursts()); // 17Dec2018
-      // 17Dec2018 masterTL.add(loadCircleBursts(), "+=0.1SquaresLoaded");
+      masterTL.add(loadCircleBursts(), "+=0.1SquaresLoaded");
       masterTL.addLabel("circleBurstsLoaded");
+
       masterTL.add(loadGlobe(), "-=0.3");
       masterTL.addLabel("globeLoaded");
+      //4Nov2019 masterTL.add(loadMovingCircle1(), "-=0.5"); // 4Nov2019
+      masterTL.add(loadSatellite1(), "-=0.6"); // 4Nov2019
       masterTL.add(loadAnalysis(), "-=0.6");
       masterTL.add(loadMap(), "-=0.6");
       masterTL.add(loadEpidem(), "-=1.2");
       masterTL.add(loadEarthquake(), "-=1.2");
-      masterTL.add(loadActivityBanners());
-      masterTL.add(hideGraspActivities(), "+=1");
+      masterTL.add(changeSquaresFill(), "-=0.6");
+      masterTL.add(loadActivityBanners(), "-=0.8");
+      masterTL.add(hideGraspActivities());
       masterTL.add(showWords());
-      //  masterTL.add(animateSatellite1(), "-=2SquaresLoaded");
+      masterTL.add(hideActivityBanners(), "-=0.4");
+      masterTL.add(collapseGRASPBlueBackground());
 
       masterTL.play();
 
-      GSDevTools.create();
+       GSDevTools.create();
     };
 
     return publicAPI;
